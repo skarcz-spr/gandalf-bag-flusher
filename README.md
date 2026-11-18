@@ -1,4 +1,6 @@
-# Bag Flushing Automation (Nitrogen)
+# GANDALF
+
+**G**as-bag **A**utomated **N**itrogen **D**isplacement **A**nd **L**ab **F**lushing
 
 A controller that automatically flushes gas-sampling bags with nitrogen. It
 repeats a **fill the bag → empty the bag with a pump** cycle a set number of

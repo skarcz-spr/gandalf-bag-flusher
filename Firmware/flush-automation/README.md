@@ -1,4 +1,6 @@
-# Bag Flushing Automation – Firmware
+# GANDALF – Firmware
+
+Firmware of GANDALF (Gas-bag Automated Nitrogen Displacement And Lab Flushing).
 
 Original author: **Kamil Widzyk**, student at AGH University of Krakow.
 

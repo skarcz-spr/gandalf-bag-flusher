@@ -1,4 +1,5 @@
-// Bag Flushing Automation – firmware for the Raspberry Pi Pico (RP2040).
+// GANDALF (Gas-bag Automated Nitrogen Displacement And Lab Flushing)
+// Firmware for the Raspberry Pi Pico (RP2040).
 // Original author: Kamil Widzyk, student at AGH University of Krakow.
 
 #include <Wire.h>
