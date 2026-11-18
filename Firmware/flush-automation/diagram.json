@@ -59,7 +59,7 @@
       "top": -172.8,
       "left": 124.8,
       "attrs": {
-        "text": "Z1: Napelnianie azot"
+        "text": "Z1: nitrogen fill"
       }
     },
     {
@@ -68,7 +68,7 @@
       "top": -115.2,
       "left": 124.8,
       "attrs": {
-        "text": "Z2: wyjscie"
+        "text": "Z2: outlet"
       }
     },
     {
@@ -77,7 +77,7 @@
       "top": -57.6,
       "left": 124.8,
       "attrs": {
-        "text": "Pompa"
+        "text": "Pump"
       }
     },
     {
@@ -144,7 +144,7 @@
       "top": -374.4,
       "left": 380,
       "attrs": {
-        "text": "NAPELNIANIE"
+        "text": "FILL"
       }
     },
     {
@@ -153,7 +153,7 @@
       "top": -307.2,
       "left": 380,
       "attrs": {
-        "text": "OPROZNIANIE"
+        "text": "EMPTY"
       }
     },
     {
@@ -165,12 +165,6 @@
       "attrs": {
         "volume": "0.1"
       }
-    },
-    {
-      "type": "chip-ina219",
-      "id": "ina219",
-      "top": -300,
-      "left": 130
     }
   ],
   "connections": [
@@ -403,43 +397,6 @@
       "pico:GP16",
       "btn4:2.r",
       "gold",
-      []
-    ],
-
-    [
-      "ina219:VCC",
-      "pico:3V3",
-      "red",
-      []
-    ],
-    [
-      "ina219:GND",
-      "pico:GND.1",
-      "black",
-      []
-    ],
-    [
-      "ina219:SDA",
-      "pico:GP4",
-      "green",
-      []
-    ],
-    [
-      "ina219:SCL",
-      "pico:GP5",
-      "green",
-      []
-    ],
-    [
-      "ina219:Z2",
-      "pico:GP9",
-      "green",
-      []
-    ],
-    [
-      "ina219:PUMP",
-      "pico:GP10",
-      "green",
       []
     ]
   ],

@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 470" font-family="Helvetica, Arial, sans-serif" font-size="13">
+  <defs>
+    <marker id="g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1e8449"/></marker>
+    <marker id="o" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#ca6f1e"/></marker>
+  </defs>
+  <rect width="1000" height="470" fill="#fff"/>
+  <text x="500" y="34" text-anchor="middle" font-size="20" font-weight="bold" fill="#222">Pneumatic diagram</text>
+
+  <!-- tubing -->
+  <g fill="none" stroke-width="7" stroke-linecap="round">
+    <line x1="150" y1="200" x2="300" y2="200" stroke="#a9cce3"/>
+    <line x1="380" y1="200" x2="500" y2="200" stroke="#a9cce3"/>
+    <line x1="500" y1="200" x2="500" y2="320" stroke="#a9cce3"/>
+    <line x1="500" y1="200" x2="620" y2="200" stroke="#a9cce3"/>
+    <line x1="700" y1="200" x2="770" y2="200" stroke="#a9cce3"/>
+    <line x1="850" y1="200" x2="910" y2="200" stroke="#a9cce3"/>
+    <line x1="500" y1="200" x2="500" y2="120" stroke="#a9cce3" stroke-width="4"/>
+  </g>
+  <!-- flow arrows -->
+  <g stroke-width="2.5" fill="none">
+    <line x1="175" y1="180" x2="275" y2="180" stroke="#1e8449" marker-end="url(#g)"/>
+    <line x1="395" y1="180" x2="470" y2="180" stroke="#1e8449" marker-end="url(#g)"/>
+    <line x1="520" y1="225" x2="520" y2="300" stroke="#1e8449" marker-end="url(#g)"/>
+    <line x1="480" y1="300" x2="480" y2="225" stroke="#ca6f1e" marker-end="url(#o)"/>
+    <line x1="530" y1="180" x2="605" y2="180" stroke="#ca6f1e" marker-end="url(#o)"/>
+    <line x1="712" y1="180" x2="760" y2="180" stroke="#ca6f1e" marker-end="url(#o)"/>
+    <line x1="862" y1="180" x2="905" y2="180" stroke="#ca6f1e" marker-end="url(#o)"/>
+  </g>
+
+  <!-- N2 cylinder -->
+  <rect x="60" y="150" width="60" height="140" rx="26" fill="#d6eaf8" stroke="#2471a3" stroke-width="2"/>
+  <rect x="80" y="134" width="20" height="18" fill="#2471a3"/>
+  <text x="90" y="230" text-anchor="middle" font-weight="bold" fill="#1b4f72">N₂</text>
+  <circle cx="135" cy="200" r="14" fill="#fff" stroke="#2471a3" stroke-width="2"/>
+  <line x1="135" y1="200" x2="143" y2="192" stroke="#2471a3" stroke-width="2"/>
+  <text x="105" y="320" text-anchor="middle" font-size="12">Cylinder + regulator</text>
+  <text x="105" y="336" text-anchor="middle" font-size="12" fill="#555">~1.75 bar</text>
+
+  <!-- Z1 -->
+  <rect x="300" y="178" width="80" height="44" rx="4" fill="#e8f6ec" stroke="#1e8449" stroke-width="2"/>
+  <line x1="300" y1="178" x2="380" y2="222" stroke="#1e8449" stroke-width="1.5"/>
+  <line x1="300" y1="222" x2="380" y2="178" stroke="#1e8449" stroke-width="1.5"/>
+  <rect x="320" y="150" width="40" height="22" fill="#fff" stroke="#1e8449"/>
+  <text x="340" y="166" text-anchor="middle" font-size="11">coil</text>
+  <text x="340" y="248" text-anchor="middle" font-weight="bold">Z1 · INLET</text>
+  <text x="340" y="264" text-anchor="middle" font-size="12" fill="#555">12 V NC · GP8</text>
+
+  <!-- node -->
+  <circle cx="500" cy="200" r="9" fill="#2471a3"/>
+  <text x="540" y="226" font-size="12" fill="#555">manifold / tee</text>
+
+  <!-- sensor -->
+  <rect x="440" y="70" width="120" height="50" rx="8" fill="#eaf2fb" stroke="#2471a3" stroke-width="2"/>
+  <text x="500" y="92" text-anchor="middle" font-weight="bold">LPS28DFW</text>
+  <text x="500" y="110" text-anchor="middle" font-size="11.5">pressure · detects empty bag</text>
+
+  <!-- bag -->
+  <path d="M440,320 L560,320 L575,430 Q500,450 425,430 Z" fill="#fef9e7" stroke="#b7950b" stroke-width="2"/>
+  <text x="500" y="378" text-anchor="middle" font-weight="bold">Bag(s)</text>
+  <text x="500" y="396" text-anchor="middle" font-size="11.5" fill="#555">via manifold</text>
+
+  <!-- Z2 -->
+  <rect x="620" y="178" width="80" height="44" rx="4" fill="#fdf2e9" stroke="#ca6f1e" stroke-width="2"/>
+  <line x1="620" y1="178" x2="700" y2="222" stroke="#ca6f1e" stroke-width="1.5"/>
+  <line x1="620" y1="222" x2="700" y2="178" stroke="#ca6f1e" stroke-width="1.5"/>
+  <rect x="640" y="150" width="40" height="22" fill="#fff" stroke="#ca6f1e"/>
+  <text x="660" y="166" text-anchor="middle" font-size="11">coil</text>
+  <text x="660" y="248" text-anchor="middle" font-weight="bold">Z2 · OUTLET</text>
+  <text x="660" y="264" text-anchor="middle" font-size="12" fill="#555">12 V NC · GP9</text>
+
+  <!-- pump -->
+  <circle cx="810" cy="200" r="38" fill="#fdf2e9" stroke="#ca6f1e" stroke-width="2"/>
+  <path d="M792,220 L828,200 L792,180 Z" fill="#ca6f1e"/>
+  <text x="810" y="262" text-anchor="middle" font-weight="bold">Pump</text>
+  <text x="810" y="278" text-anchor="middle" font-size="12" fill="#555">12 V · GP10</text>
+
+  <!-- exhaust -->
+  <path d="M912,186 L940,172 L940,228 L912,214 Z" fill="#f4f6f7" stroke="#7f8c8d" stroke-width="2"/>
+  <text x="930" y="262" text-anchor="middle" font-weight="bold">Exhaust</text>
+
+  <!-- legend -->
+  <g font-size="12.5">
+    <line x1="660" y1="380" x2="710" y2="380" stroke="#1e8449" stroke-width="2.5" marker-end="url(#g)"/>
+    <text x="720" y="384">Fill: Z1 open, Z2 closed, pump off</text>
+    <line x1="660" y1="410" x2="710" y2="410" stroke="#ca6f1e" stroke-width="2.5" marker-end="url(#o)"/>
+    <text x="720" y="414">Empty: Z1 closed, Z2 open, pump on</text>
+    <text x="660" y="444" fill="#555">Both valves NC: power off isolates the bag.</text>
+  </g>
+</svg>

@@ -8,24 +8,10 @@
 #define SCREEN_STATUS 2
 #define SCREEN_SETTINGS_NUMBER_EDIT 3
 #define SCREEN_SETTINGS_CONFIRM 4
-#define SCREEN_TIME_CALIBRATION 5
-#define SCREEN_TEST 6
-#define MAX_CURRENT_FILTER_SAMPLES 30
-#define DEFAULT_CURRENT_FILTER_SAMPLES 10
+#define SCREEN_TEST 5
 #define MAX_CUTOFF_CONFIRM_SAMPLES 50
 #define DEFAULT_CUTOFF_CONFIRM_SAMPLES 10
-// Typy filtra prądu: średnia krocząca, mediana, średnia obcięta (bez 20% skrajnych wartości).
-#define FILTER_TYPE_AVERAGE 0
-#define FILTER_TYPE_MEDIAN 1
-#define FILTER_TYPE_TRIMMED 2
-#define FILTER_TYPE_COUNT 3
-// Metoda detekcji odcięcia pompy: z czujnika ciśnienia, z czujnika prądu albo obie
-// (odcięcie, gdy wykryje je którakolwiek).
-#define CUTOFF_METHOD_PRESSURE 0
-#define CUTOFF_METHOD_CURRENT 1
-#define CUTOFF_METHOD_BOTH 2
-#define CUTOFF_METHOD_COUNT 3
-// Próg ciśnienia (hPa) w worku, poniżej którego pompa jest odcinana.
+// Bag pressure threshold (hPa) below which the pump is cut off.
 #define PRESSURE_CUTOFF_MIN_HPA 260
 #define PRESSURE_CUTOFF_MAX_HPA 1260
 #define DEFAULT_PRESSURE_CUTOFF_HPA 850
@@ -34,6 +20,14 @@
 enum StatusPhase : uint8_t {
   STATUS_EMPTY,
   STATUS_FILL
+};
+
+// Result of the last procedure, shown as an icon on the home screen.
+enum LastRunResult : uint8_t {
+  LAST_RUN_PENDING,  // bags need flushing: after power-up, a manual fill/empty
+                     // or while a procedure runs (warning triangle)
+  LAST_RUN_DONE,     // all cycles completed (check mark)
+  LAST_RUN_STOPPED   // aborted with STOP (cross)
 };
 
 struct Config {
@@ -45,65 +39,44 @@ struct Config {
   uint16_t empty_time;
   uint16_t max_empty_time;
   uint32_t actuation_time;
-  // Prąd pompy przy otwartym zaworze (swobodny przepływ), w dziesiątych mA.
-  uint16_t pump_current_baseline_tenths_ma;
-  bool pump_current_baseline_valid;
-  // Prąd pompy przy zamkniętym zaworze, w dziesiątych mA.
-  uint16_t pump_current_blocked_tenths_ma;
-  // Największy narost prądu w oknie 300 ms przy zamykaniu zaworu, w dziesiątych mA.
-  uint16_t pump_current_rise_tenths_ma;
-  // Liczba ostatnich odczytów w filtrze średniej kroczącej prądu (1 = bez filtra).
-  uint8_t current_filter_samples;
-  // Liczba kolejnych próbek spełniających warunek, potrzebna do uznania odcięcia.
+  // Number of consecutive below-threshold pressure samples needed to confirm a cutoff.
   uint8_t cutoff_confirm_samples;
-  // Typ filtra prądu (FILTER_TYPE_*).
-  uint8_t current_filter_type;
-  // Próg ciśnienia odcięcia w hPa (odcięcie przy ciśnieniu poniżej progu).
+  // Cutoff pressure threshold in hPa (cutoff when the pressure is below the threshold).
   uint16_t pressure_cutoff_hpa;
-  // Metoda detekcji odcięcia (CUTOFF_METHOD_*).
-  uint8_t cutoff_method;
 };
 
 extern Config config;
 extern const Config defaultConfig;
 extern int currentScreen;
 
-// Inicjalizuje I2C, wejścia użytkownika i wyświetlacz OLED.
-// Argumenty/wartość zwrotna: brak; konfiguruje sprzęt oraz stan UI.
+// Initialises I2C, the user inputs and the OLED display.
+// Arguments/return value: none; configures the hardware and the UI state.
 void uiBegin();
-// Wykonuje jeden przebieg obsługi przycisków, enkodera i przycisków ręcznych.
-// Argumenty/wartość zwrotna: brak; może zmieniać ekran, konfigurację i wyjścia.
+// Runs one pass over the buttons, the encoder and the manual buttons.
+// Arguments/return value: none; may change the screen, configuration and outputs.
 void processInput();
-// Rysuje zmieniony ekran, jeśli OLED jest gotowy i upłynął minimalny odstęp.
-// Argumenty/wartość zwrotna: brak; aktualizuje wyświetlacz i flagi odświeżenia.
+// Redraws a changed screen if the OLED is ready and the minimum interval has passed.
+// Arguments/return value: none; updates the display and the redraw flags.
 void updateScreen();
-// Przełącza UI na ekran statusu i ustawia początkowe dane procedury.
-// Argumenty: faza, numer bieżącego cyklu, liczba cykli, czas upływu i maksimum w sekundach.
-// Wartość zwrotna: brak; zmienia ekran oraz dane statusu.
+// Switches the UI to the status screen and sets the initial procedure data.
+// Arguments: phase, current cycle number, number of cycles, elapsed time and maximum in seconds.
+// Return value: none; changes the screen and the status data.
 void showStatusScreen(StatusPhase phase, uint8_t currentCycle,
                       uint8_t allCycles, uint32_t elapsedSeconds,
                       uint32_t maximumSeconds);
-// Aktualizuje dane statusu, oznaczając ekran do odrysowania po wykryciu zmiany.
-// Argumenty: faza, numer bieżącego cyklu, liczba cykli, czas upływu i maksimum w sekundach.
-// Wartość zwrotna: brak; modyfikuje stan statusu i w razie potrzeby flagę rysowania.
+// Updates the status data and marks the screen for redraw when something changed.
+// Arguments: phase, current cycle number, number of cycles, elapsed time and maximum in seconds.
+// Return value: none; modifies the status state and, if needed, the redraw flag.
 void updateStatusScreen(StatusPhase phase, uint8_t currentCycle,
                         uint8_t allCycles, uint32_t elapsedSeconds,
                         uint32_t maximumSeconds);
-// Wraca do ekranu głównego i czyści zaznaczenie oraz stan kalibracji, jeśli był aktywny.
-// Argumenty/wartość zwrotna: brak; zmienia stan ekranów i UI.
+// Returns to the home screen and clears the selection.
+// Arguments/return value: none; changes the screen and UI state.
 void returnHomeScreen();
-// Rozpoczyna pomiar kalibracyjny czasów napełniania/opróżniania.
-// Argumenty/wartość zwrotna: brak; resetuje pomiary, wyłącza wyjścia i zmienia ekran.
-void timeCalibrationStart();
-// Kończy kalibrację, wyłącza ręczne wyjścia i wraca do ekranu głównego.
-// Argumenty/wartość zwrotna: brak; resetuje stan pomiaru i ustawia blokadę wejść.
-void timeCalibrationStop();
-// Zatwierdza pomiar albo przechodzi do kolejnego kroku kalibracji.
-// Argumenty: brak. Zwraca: true dla przyjętego kroku, false dla błędnego/nieaktywnego;
-// aktualizuje config i może zlecić jego zapis.
-bool timeCalibrationNextStep();
-// Odczytuje wejścia kalibracji, steruje wyjściami i odświeża licznik pomiaru.
-// Argumenty/wartość zwrotna: brak; aktualizuje stan kalibracji i UI.
-void timeCalibrationUpdate();
+
+// Sets the result icon shown on the home screen. Kept in RAM only, so a power
+// cycle or reset brings back LAST_RUN_PENDING.
+// Arguments: the result. Return value: none; marks the screen for redraw.
+void setLastRunResult(LastRunResult result);
 
 #endif

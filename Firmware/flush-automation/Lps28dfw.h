@@ -8,32 +8,32 @@
 extern "C" {
 #endif
 
-// Zapisuje jeden bajt do rejestru czujnika ciśnienia przez magistralę I2C.
-// Argumenty: adres urządzenia, adres rejestru i wartość. Zwraca: true po potwierdzeniu (ACK).
+// Writes one byte to a pressure sensor register over the I2C bus.
+// Arguments: device address, register address and value. Returns: true on ACK.
 bool lps28dfw_bus_write_register(uint8_t address, uint8_t reg, uint8_t value);
-// Odczytuje kolejne rejestry czujnika (z automatyczną inkrementacją adresu) z powtórzonym START.
-// Argumenty: adres urządzenia, adres pierwszego rejestru, bufor i liczba bajtów.
-// Zwraca: true, gdy odebrano wszystkie bajty.
+// Reads consecutive sensor registers (with address auto-increment) using a repeated START.
+// Arguments: device address, first register address, buffer and byte count.
+// Returns: true when all bytes were received.
 bool lps28dfw_bus_read_registers(uint8_t address, uint8_t reg, uint8_t *buffer,
                                  uint8_t length);
-// Sprawdza, czy urządzenie odpowiada na wskazanym adresie I2C.
-// Argumenty: adres urządzenia. Zwraca: true, gdy odebrano ACK.
+// Checks whether a device responds at the given I2C address.
+// Arguments: device address. Returns: true when an ACK was received.
 bool lps28dfw_bus_probe(uint8_t address);
-// Czeka podaną liczbę milisekund (używane tylko podczas inicjalizacji czujnika).
-// Argumenty: czas w ms. Zwraca: brak.
+// Waits the given number of milliseconds (used only during sensor initialisation).
+// Arguments: time in ms. Returns: nothing.
 void lps28dfw_bus_delay_ms(uint32_t milliseconds);
 
-// Wyszukuje LPS28DFW pod adresem 0x5C lub 0x5D (SA0), sprawdza WHO_AM_I i konfiguruje
-// pomiar ciągły (25 Hz, uśrednianie 16, zakres 1260 hPa).
-// Argumenty: brak. Zwraca: true, gdy czujnik odpowiada i został skonfigurowany.
+// Looks for the LPS28DFW at address 0x5C or 0x5D (SA0), checks WHO_AM_I and configures
+// continuous measurement (25 Hz, 16-sample averaging, 1260 hPa full scale).
+// Arguments: none. Returns: true when the sensor responds and has been configured.
 bool lps28dfw_begin(void);
-// Zwraca adres skonfigurowanego czujnika albo 0, gdy komunikacja nie została nawiązana.
-// Argumenty: brak.
+// Returns the address of the configured sensor, or 0 when no communication was established.
+// Arguments: none.
 uint8_t lps28dfw_address(void);
-// Odczytuje ciśnienie bezwzględne w hPa. Przy błędzie komunikacji czujnik jest
-// inicjalizowany ponownie przy następnym wywołaniu.
-// Argumenty: wskaźnik na wynik w hPa. Zwraca: true, gdy odczyt jest poprawny i mieści się
-// w zakresie pracy czujnika (nieprzygotowana próbka jest odrzucana); wynik zapisuje do *hpa.
+// Reads the absolute pressure in hPa. After a communication error the sensor is
+// initialised again on the next call.
+// Arguments: pointer to the result in hPa. Returns: true when the reading is valid and within
+// the sensor's operating range (a sample that is not ready is rejected); stores it in *hpa.
 bool lps28dfw_read_pressure_hpa(float *hpa);
 
 #ifdef __cplusplus

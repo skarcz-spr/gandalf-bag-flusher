@@ -9,12 +9,12 @@
 #define LPS28DFW_CTRL_REG3 0x12
 #define LPS28DFW_PRESS_OUT_XL 0x28
 #define LPS28DFW_CTRL2_SWRESET 0x04
-// Blokada aktualizacji danych: wynik 24-bitowy jest spójny przy odczycie wielobajtowym.
+// Block data update: the 24-bit result stays consistent during a multi-byte read.
 #define LPS28DFW_CTRL2_BDU 0x08
 #define LPS28DFW_CTRL3_IF_ADD_INC 0x01
-// ODR 25 Hz (bity 6:3 = 0100), uśrednianie 16 próbek (bity 2:0 = 010).
+// ODR 25 Hz (bits 6:3 = 0100), 16-sample averaging (bits 2:0 = 010).
 #define LPS28DFW_CTRL1_VALUE ((4u << 3) | 2u)
-// Zakres 1260 hPa (FS_MODE = 0): 4096 LSB/hPa.
+// 1260 hPa full scale (FS_MODE = 0): 4096 LSB/hPa.
 #define LPS28DFW_LSB_PER_HPA 4096.0f
 #define LPS28DFW_MIN_VALID_HPA 200.0f
 #define LPS28DFW_MAX_VALID_HPA 1300.0f
@@ -22,8 +22,8 @@
 
 static uint8_t lps28dfw_active_address = 0;
 
-// Resetuje czujnik, a następnie zapisuje konfigurację i odczytuje ją z powrotem.
-// Argumenty: adres urządzenia. Zwraca: true, gdy rejestry zawierają zapisane wartości.
+// Resets the sensor, then writes the configuration and reads it back.
+// Arguments: device address. Returns: true when the registers hold the written values.
 static bool lps28dfw_configure(uint8_t address) {
   uint8_t value = 0;
   uint8_t attempt;
@@ -59,8 +59,8 @@ static bool lps28dfw_configure(uint8_t address) {
          value == LPS28DFW_CTRL1_VALUE;
 }
 
-// Sprawdza identyfikator układu pod danym adresem.
-// Argumenty: adres urządzenia. Zwraca: true, gdy WHO_AM_I zawiera wartość LPS28DFW (0xB4).
+// Checks the chip ID at the given address.
+// Arguments: device address. Returns: true when WHO_AM_I holds the LPS28DFW value (0xB4).
 static bool lps28dfw_identify(uint8_t address) {
   uint8_t id = 0;
 
@@ -70,8 +70,8 @@ static bool lps28dfw_identify(uint8_t address) {
          id == LPS28DFW_WHO_AM_I_VALUE;
 }
 
-// Wyszukuje czujnik pod adresami 0x5C i 0x5D i konfiguruje pierwszy rozpoznany układ.
-// Argumenty: brak. Zwraca: true, gdy czujnik odpowiada i został skonfigurowany.
+// Looks for the sensor at addresses 0x5C and 0x5D and configures the first chip found.
+// Arguments: none. Returns: true when the sensor responds and has been configured.
 bool lps28dfw_begin(void) {
   uint8_t address;
 
@@ -87,16 +87,16 @@ bool lps28dfw_begin(void) {
   return false;
 }
 
-// Zwraca adres skonfigurowanego czujnika albo 0, gdy komunikacja nie została nawiązana.
-// Argumenty: brak.
+// Returns the address of the configured sensor, or 0 when no communication was established.
+// Arguments: none.
 uint8_t lps28dfw_address(void) {
   return lps28dfw_active_address;
 }
 
-// Odczytuje 24-bitowe ciśnienie (U2) i przelicza je na hPa.
-// Argumenty: wskaźnik na wynik w hPa. Zwraca: true dla poprawnego odczytu; wynik poza
-// zakresem pracy (np. 0 tuż po starcie) jest odrzucany jako nieprzygotowana próbka.
-// Błąd komunikacji powoduje ponowne wyszukanie i konfigurację czujnika.
+// Reads the 24-bit pressure (two's complement) and converts it to hPa.
+// Arguments: pointer to the result in hPa. Returns: true for a valid reading; a value outside
+// the operating range (e.g. 0 right after power-up) is rejected as a sample that is not ready.
+// A communication error causes the sensor to be searched for and configured again.
 bool lps28dfw_read_pressure_hpa(float *hpa) {
   uint8_t data[3];
   int32_t raw;
