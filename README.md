@@ -13,6 +13,14 @@ The original firmware was written by **Kamil Widzyk**, a student at AGH
 University of Krakow; this version is developed further by Stanislaw Karcz
 (see [Authors](#12-authors)).
 
+![GANDALF on the lab bench: controller board, diaphragm pump and two solenoid valves on a mounting plate](docs/setup.jpg)
+
+*The setup in the lab. Left: the controller board (Raspberry Pi Pico, OLED
+display, START/STOP buttons, rotary encoder, buzzer and DC-DC converter).
+Middle: the diaphragm pump. Right: the two solenoid valves. Plate labels (in
+Polish): `BUTLA 1.75 bar` – nitrogen cylinder inlet, `WOREK` – bag connection,
+`WYDECH` – pump exhaust.*
+
 ---
 
 ## Table of contents
@@ -354,7 +362,7 @@ the [firmware README](./Firmware/flush-automation/README.md).
 | Path | Content |
 | --- | --- |
 | `README.md` | This document |
-| `docs/` | Diagrams (SVG) and OLED screen previews used in this README |
+| `docs/` | Setup photo, diagrams (SVG) and OLED screen previews used in this README |
 | `Firmware/flush-automation/flush-automation.ino` | `setup()` / `loop()`, I2C access for the sensor drivers |
 | `Firmware/flush-automation/Ui.*` | Screens, encoder, buttons, `Config` and its defaults |
 | `Firmware/flush-automation/Procedure.*` | Procedure state machine, outputs, pressure cutoff detection, buzzer |
