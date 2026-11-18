@@ -13,13 +13,6 @@ The original firmware was written by **Kamil Widzyk**, a student at AGH
 University of Krakow; this version is developed further by Stanislaw Karcz
 (see [Authors](#12-authors)).
 
-![Test stand: control module with pump and valves on a mounting plate, outlets to the bags on the right](docs/setup.jpg)
-
-*The setup in the lab: a mounting plate with the electronics (Raspberry Pi
-Pico on a PCB), a diaphragm pump, two solenoid valves and the pressure sensor.
-Nitrogen comes in through the blue line; the white tubes lead through a
-manifold to the bags.*
-
 ---
 
 ## Table of contents
@@ -361,7 +354,7 @@ the [firmware README](./Firmware/flush-automation/README.md).
 | Path | Content |
 | --- | --- |
 | `README.md` | This document |
-| `docs/` | Photo and diagrams (SVG) used in this README |
+| `docs/` | Diagrams (SVG) and OLED screen previews used in this README |
 | `Firmware/flush-automation/flush-automation.ino` | `setup()` / `loop()`, I2C access for the sensor drivers |
 | `Firmware/flush-automation/Ui.*` | Screens, encoder, buttons, `Config` and its defaults |
 | `Firmware/flush-automation/Procedure.*` | Procedure state machine, outputs, pressure cutoff detection, buzzer |
