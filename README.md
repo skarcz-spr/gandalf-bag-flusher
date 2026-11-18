@@ -8,7 +8,8 @@ rotary encoder and buttons. Settings are stored in the Raspberry Pi Pico's
 flash memory.
 
 The original firmware was written by **Kamil Widzyk**, a student at AGH
-University of Krakow (see [Authors](#12-authors)).
+University of Krakow; this version is developed further by Stanislaw Karcz
+(see [Authors](#12-authors)).
 
 ![Test stand: control module with pump and valves on a mounting plate, outlets to the bags on the right](docs/setup.jpg)
 
@@ -424,8 +425,19 @@ lab's safety rules or the gas supplier's safety data sheet (SDS).
 
 ## 12. Authors
 
+This project is based on
+[Kamil4567/Air-flushing-automation](https://github.com/Kamil4567/Air-flushing-automation);
+the commit history of the original repository is preserved here.
+
 - **Kamil Widzyk** (student, AGH University of Krakow): original author of the
-  firmware.
+  firmware, hardware design and UI.
+- **Stanislaw Karcz**: further development of this version:
+  - pressure-only end-of-emptying detection (INA219 current sensor removed),
+    settings record v9 with migration, fix for settings being reset at boot
+  - hardware watchdog that keeps the valves and pump off after a reset
+  - bag status icon on the home screen (needs flushing / done / stopped),
+    simplified settings menu
+  - English UI, code and documentation, safety section
 
 ---
 
