@@ -13,13 +13,11 @@ The original firmware was written by **Kamil Widzyk**, a student at AGH
 University of Krakow; this version is developed further by Stanislaw Karcz
 (see [Authors](#12-authors)).
 
-![GANDALF on the lab bench: controller board, diaphragm pump and two solenoid valves on a mounting plate](docs/setup.jpg)
+![GANDALF on the lab bench: controller board, diaphragm pump and the two solenoid valves on a mounting plate, with labelled components](docs/setup.jpg)
 
-*The setup in the lab. Left: the controller board (Raspberry Pi Pico, OLED
-display, START/STOP buttons, rotary encoder, buzzer and DC-DC converter).
-Middle: the diaphragm pump. Right: the two solenoid valves. Plate labels (in
-Polish): `BUTLA 1.75 bar` – nitrogen cylinder inlet, `WOREK` – bag connection,
-`WYDECH` – pump exhaust.*
+*GANDALF in the lab: the controller, the pump and the two valves on a common
+mounting plate. The plate labels are in Polish: `BUTLA` – cylinder,
+`WOREK` – bag, `WYDECH` – exhaust.*
 
 ---
 
