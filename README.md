@@ -82,6 +82,11 @@ mounting plate. The plate labels are in Polish: `BUTLA` – cylinder,
 Both valves are normally closed (NC). After a power loss the bag is isolated
 from both the cylinder and the pump.
 
+<img src="docs/solenoid-valve.jpg" alt="12 V DC normally closed solenoid valve (0.02–0.8 MPa) used for Z1 and Z2" width="400">
+
+Z1 and Z2 are identical 12 V DC normally closed solenoid valves rated for
+0.02–0.8 MPa. The arrow on the coil shows the flow direction.
+
 > The firmware in `Firmware/` is for the **two-valve** version (Z1, Z2). A
 > three-valve version with a buffer and a 0.4 mm nozzle is being developed in
 > the separate `Air-flushing-automation-v2` repository.
@@ -96,7 +101,9 @@ from both the cylinder and the pump.
 - **Inputs:** rotary encoder with push button, START, STOP, manual fill,
   manual empty.
 - **Outputs:** Z1, Z2 and the pump via MOSFET switches; passive buzzer.
-- **Sensor:** LPS28DFW absolute pressure sensor, I2C.
+- **Sensor:** LPS28DFW absolute pressure sensor, I2C, on the ST
+  [STEVAL-MKI225A](https://www.st.com/en/evaluation-tools/steval-mki225a.html)
+  DIL24 adapter board (see section 2.5).
 - **Power:** 12 V for the valves and pump; the Pico is powered from a DC-DC
   converter.
 - **Schematic and PCB:** `Schematic/air-flushing-controller.epro2`
@@ -128,6 +135,21 @@ All buttons are active low (they short the input to GND).
 | --- | --- | --- |
 | SSD1306 (OLED) | `0x3C` | |
 | LPS28DFW | `0x5C` (SA0 = GND) or `0x5D` (SA0 = VDD) | address auto-detected, `WHO_AM_I = 0xB4` |
+
+### 2.5 Pressure sensor mount
+
+The LPS28DFW is used on ST's official adapter board
+[STEVAL-MKI225A](https://www.st.com/en/evaluation-tools/steval-mki225a.html)
+([data brief](https://www.st.com/resource/en/data_brief/steval-mki225a.pdf)),
+which plugs into a standard DIL24 socket. A 3D-printed clamp holds a tube
+adapter over the sensor's port and presses it onto the board; the tube runs to
+a tee fitting on the bag line.
+
+| Render | Assembled |
+| --- | --- |
+| ![Render of the 3D-printed LPS28DFW sensor mount](docs/lps28dfw-sensor-mount-render.jpg) | ![LPS28DFW sensor mount installed on the pneumatic plate](docs/lps28dfw-sensor-mount-photo.jpg) |
+
+3D model (STEP): [`docs/lps28dfw-sensor-mount.step`](docs/lps28dfw-sensor-mount.step)
 
 ---
 
@@ -360,7 +382,7 @@ the [firmware README](./Firmware/flush-automation/README.md).
 | Path | Content |
 | --- | --- |
 | `README.md` | This document |
-| `docs/` | Setup photo, diagrams (SVG) and OLED screen previews used in this README |
+| `docs/` | Setup and component photos, diagrams (SVG), OLED screen previews and the pressure sensor mount (STEP model and render) |
 | `Firmware/flush-automation/flush-automation.ino` | `setup()` / `loop()`, I2C access for the sensor drivers |
 | `Firmware/flush-automation/Ui.*` | Screens, encoder, buttons, `Config` and its defaults |
 | `Firmware/flush-automation/Procedure.*` | Procedure state machine, outputs, pressure cutoff detection, buzzer |
