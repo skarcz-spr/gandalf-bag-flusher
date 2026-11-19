@@ -85,7 +85,9 @@ from both the cylinder and the pump.
 <img src="docs/solenoid-valve.jpg" alt="12 V DC normally closed solenoid valve (0.02–0.8 MPa) used for Z1 and Z2" width="400">
 
 Z1 and Z2 are identical 12 V DC normally closed solenoid valves rated for
-0.02–0.8 MPa. The arrow on the coil shows the flow direction.
+0.02–0.8 MPa, with 1/4" push-in fittings. The arrow on the coil shows the
+flow direction. Source:
+[Botland 9453](https://botland.com.pl/zawory/9453-zawor-elektromagnetyczny-12v-002-08mpa-z-szybkozlaczem-5904422313388.html).
 
 > The firmware in `Firmware/` is for the **two-valve** version (Z1, Z2). A
 > three-valve version with a buffer and a 0.4 mm nozzle is being developed in
